@@ -1,0 +1,25 @@
+@keyframes fall {
+  100%{
+    top: 100%;
+  }
+}
+
+@keyframes shoot {
+  100%{
+    bottom: 105%;
+  }
+}
+
+@keyframes dieoff {
+  0%{
+    opacity: 1;
+  }
+
+  90%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
