@@ -2,6 +2,16 @@
 
 This is a simple typing game built with React.js. In this game, bubbles of words fall from the top of the screen and the player must type out the words on the bubbles using their keyboard. The objective of the game is to shoot as many bubbles as possible before they reach the bottom of the screen.
 
+### In Game
+[<img src="Play-button.png" width="150" alt="playbutton"/>](https://singular-dolphin-4e6882.netlify.app/)
+
+**In game screenshot 001**
+
+<img src="Screenshot 2023-03-21 051753.png" alt="screenshot01"/>
+
+**In game screenshot 002**
+<img src="Screenshot 2023-03-21 051859.png" alt="screenshot02"/>
+
 ### Installation
 
 To install and run the game on your local machine, please follow these steps:
