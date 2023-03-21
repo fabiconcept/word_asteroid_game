@@ -32,4 +32,5 @@ npm install
 - The game gets progressively harder as you shoot down more bubbles
 
 ### Credits
-This game was built using React.js and styled using CSS. The idea for the game was inspired by [ZType](https://zty.pe/). go check out their [Github Repo](https://github.com/johnBuffer/ZTyper).
+This game was built using React.js and styled using CSS. The idea for the game was inspired by [ZType](https://zty.pe/). 
+Go check out their [Github Repo](https://github.com/johnBuffer/ZTyper).
