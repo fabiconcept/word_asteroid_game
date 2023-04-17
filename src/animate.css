@@ -1,5 +1,14 @@
 @keyframes fall {
+  0%{
+    background-color: rgba(250, 35, 107, 0);
+    top: -5rem;
+  }
+  70%{
+    background-color: rgba(250, 35, 107, 0);
+  }
+  
   100%{
+    background-color: rgba(250, 35, 107, 0.404);
     top: 100%;
   }
 }

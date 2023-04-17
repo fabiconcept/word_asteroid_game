@@ -3,27 +3,20 @@ import { useEffect } from 'react';
 import { context } from '../App';
 
 const Scoreboard = () => {
-  const { paused, scoreDiv } = useContext(context);
-
-  const scrollEnd = ()=>{
-    const div = document.getElementById("div");
-    div.scrollTop = div.scrollHeight;
-  }
-
-  useEffect(()=>{
-    scrollEnd();
-  }, [scoreDiv]);
+  const { paused, score, healthLeft } = useContext(context);
 
   return (
     <div className='score'>
       <span>Scoreboard:
         <div className="scoreDiv" id="div">
-          {scoreDiv.map(i => <span key={`${Math.random().toString(25).slice(2)}`}>{i}</span>
-          )}
+          {score}
         </div>
       </span>
-      {paused && <span>Game paused</span>}
-      {!paused && <span>Playing</span>}
+      <span>
+        {healthLeft > 2 && <img src="sprites/life.png" alt="" />}
+        {healthLeft > 1 && <img src="sprites/life.png" alt="" />}
+        {healthLeft > 0 && <img src="sprites/life.png" alt="" />}
+      </span>
     </div>
   )
 }

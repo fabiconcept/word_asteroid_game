@@ -6,7 +6,7 @@ const Word = ({ word, isActive, left, activeWord, setActiveWord, id, touched, de
     const [divChar, setDivChar] = useState([]);
     const [typed, setTyped] = useState(false);
     const [mark, setMark] = useState(0)
-    const { score, setScore, paused, failed, setFailed, shots, setShots, setWordPosition} = useContext(context);
+    const { score, setScore, paused, failed, shots, setShots, setWordPosition, currentKey, level, setHealthLeft, healthLeft } = useContext(context);
 
     useEffect(() => {
         touched.forEach(element => {
@@ -16,12 +16,16 @@ const Word = ({ word, isActive, left, activeWord, setActiveWord, id, touched, de
         });
     }, [touched]);
 
-    window.addEventListener("keypress", e => {
+    const handleCheckMatch = () =>{
         const arr = divChar.filter(i => i.typed === false);
-        const char = e.key;
-
+        const char = currentKey;
         checkMatch(char, arr[0]);
-    })
+    }
+    
+    useEffect(()=>{
+        handleCheckMatch();
+    }, [currentKey]);
+
 
     const checkMatch = (val, arr) => {
         try {
@@ -37,6 +41,8 @@ const Word = ({ word, isActive, left, activeWord, setActiveWord, id, touched, de
                         return i;
                     }))
                     setMark(mark + 10);
+                }else{
+                    setMark(mark - 3);
                 }
 
             }
@@ -81,16 +87,18 @@ const Word = ({ word, isActive, left, activeWord, setActiveWord, id, touched, de
 
     }, [activeWord]);
 
-    const animationEnd = () =>{
+    const animationEnd = () => {
         if (!typed) {
-            // setFailed(true);
+            setMark(0);
+            setTyped(true);
+            setHealthLeft(healthLeft - 1);
         }
     }
 
     return (
-        <div onAnimationEnd={animationEnd} className={`word ${isActive && !typed && "active"}`} style={{ left: `${left}%`, animationDelay: `${delay-4}s` }}>
+        <div onAnimationEnd={animationEnd} className={`word ${isActive && !typed && "active"}`} style={{ left: `${left}%`, animationDelay: `${delay - 4}s`, animationDuration: `${30 - (level/2) > 1 ? 30 - (level/2) : 1}`}}>
             <div className="cont">
-                {divChar.map(i => (<span className={`${i.typed && "typed"} ${typed && "hide"}`} key={i.id}>{i.char}</span>))}
+                {divChar.map(i => (<span className={`${i.typed && "typed"} ${typed && "hide"}`} key={i.id}>{i.char}</span>))} 
                 <img src="sprites/exp.gif" alt="" className={`${typed && 'sh'}`} />
             </div>
         </div>

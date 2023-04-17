@@ -4,31 +4,18 @@ import { useState } from 'react';
 import { context } from '../App';
 
 const KeyStrokes = () => {
-    const {setTest} = useContext(context);
-    const [keyChar, setKeyChar] = useState('');
-    const [pureKey, setPureKey] = useState('');
-
-    useEffect(()=>{
-        setPureKey(keyChar);
-    }, [keyChar]);
-    
-    useEffect(()=>{
-        setTest(pureKey);
-    }, [pureKey]);
+    const { setCurrentKey } = useContext(context);
 
     function typeKey(params) {
-        setKeyChar((params).toLowerCase())
+        setCurrentKey((params.key).toLowerCase());
     }
 
-    window.addEventListener("keyup", e => {
-        typeKey(e.key);
-    });
-
-    return (
-        <div className="float">
-            {/* <div>{pureKey}</div> */}
-        </div>
-    )
+    useEffect(() => {
+        window.addEventListener('keyup', typeKey);
+        return () => {
+            window.removeEventListener('keyup', typeKey);
+        };
+    }, [typeKey]);
 }
 
 export default KeyStrokes;

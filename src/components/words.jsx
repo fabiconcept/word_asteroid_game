@@ -6,41 +6,32 @@ import { context } from '../App';
 import Word from './sub-Components/word';
 
 const Words = () => {
-  const { paused, words, failed, initiateGame } = useContext(context);
+  const { paused, words, failed, initiateGame, currentKey, setCurrentKey, level, setLevel } = useContext(context);
   let delay = 1;
   const [unTouched, setUnTouched] = useState(words);
   const [touched, setTouched] = useState([]);
   const [activeWord, setActiveWord] = useState(null);
   const [done, setDone] = useState(true);
-  const [keyChar, setKeyChar] = useState('');
   const [pureKey, setPureKey] = useState('');
 
   useEffect(()=>{
     setDone(true);
     setActiveWord([]);
-    setKeyChar('');
+    setCurrentKey('');
     setUnTouched(words);
     setTouched([]);
   }, [words])
 
   useEffect(() => {
-    if (keyChar !== '') {
-      setPureKey(keyChar);
+    if (currentKey !== '') {
+      setPureKey(currentKey);
     }
-  }, [keyChar]);
+  }, [currentKey]);
   
   useEffect(() => {
     setUnTouched(words);
   }, []);
 
-
-  function typeKey(params) {
-    setKeyChar((params).toLowerCase())
-  }
-
-  window.addEventListener("keyup", e => {
-    typeKey(e.key);
-  });
 
   useEffect(() => {
     const arr = unTouched.slice().reverse();
@@ -59,21 +50,21 @@ const Words = () => {
     const len_unTouched = words.length;
     const test = (len_touched === len_unTouched);
     if (test) {
+      setLevel(level+1)
       initiateGame();
     }
-  }, [touched])
+  }, [touched]);
 
   useEffect(() => {
     if (activeWord !== null && done) {
       setUnTouched(unTouched.filter(i => i !== activeWord));
       setTouched([...touched, activeWord]);
     }
-
   }, [done]);
 
   return (
     <div className={`words ${failed && "end"} ${paused && "paused"}`}>
-      <div className="float">{activeWord?.word}</div>
+      <div className="float">{paused ? `Paused` : `level ${level}`}</div>
       <section>
         {words.map(word => (<Word
           word={word.word}

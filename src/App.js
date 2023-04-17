@@ -1,6 +1,7 @@
+import KeyStrokes from './components/KeyStrokes';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import words_array from './components/resources/word_list';
+import fetchArray from './components/resources/word_list';
 import Scoreboard from './components/scoreboard';
 import ShotsFired from './components/ShotsFired';
 import SpaceShit from './components/SpaceShit';
@@ -15,23 +16,45 @@ const App = () => {
   const [failed, setFailed] = useState(false);
   const [paused, setPaused] = useState(false);
   const [score, setScore] = useState(0);
-  const [scoreDiv, setScoreDiv] = useState([]);
-
   const [wordPosition, setWordPosition] = useState(50);
+  const [level, setLevel] = useState(1);
+  const [healthLeft, setHealthLeft] = useState(3);
+  const [levelTxt, setLevelTxt] = useState('easy');
+
+  useEffect(()=>{
+    switch (level) {
+      case 6:
+        setLevelTxt("mid");
+        break;
+      case 12:
+        setLevelTxt("hard");
+        break;
+        
+      default:
+        setLevelTxt("easy");
+        break;
+    }
+  }, [level]);
 
   useEffect(() => {
-    setScoreDiv([...scoreDiv, score]);
+    if (healthLeft === 0) {
+      setFailed(true);
+    }
+  }, [healthLeft]);
+
+  useEffect(() => {
     setWordPosition(wordPosition + 0.15);
   }, [score]);
 
   const [words, setWords] = useState([]);
 
   const initiateGame = () =>{
-    const word_list = words_array;
+    const word_list = fetchArray(levelTxt);
     const len_arr = word_list.length;
     let cont_arr = [];
+    const maxWords = 4 + level;
 
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < maxWords; index++) {
       const word_index = Math.floor((Math.random() * len_arr));
       const cWord = word_list[word_index];
       const cWord_id = Math.random().toString(25).slice(2);
@@ -45,9 +68,21 @@ const App = () => {
     setWords(cont_arr)
   }
 
+  const resetGame = () =>{
+    setShots([]);
+    setCurrentKey("");
+    setFailed(false);
+    setPaused(false);
+    setScore(0);
+    setWordPosition(50);
+    setLevel(1)
+    setHealthLeft(3);
+    initiateGame();
+  }
+
   useEffect(() => {
     initiateGame();
-  }, [])
+  }, []);
 
   const [position, setPosition] = useState(0);
 
@@ -62,14 +97,14 @@ const App = () => {
   }
 
   return (
-    <context.Provider value={{ scoreDiv, score, setScore, initiateGame, currentKey, setCurrentKey, paused, failed, setFailed, words, shots, setShots, wordPosition, setWordPosition }}>
+    <context.Provider value={{ resetGame, level, setLevel, score, setScore, initiateGame, currentKey, setCurrentKey, paused, failed, setHealthLeft, healthLeft, words, shots, setShots, wordPosition, setWordPosition }}>
       <div className="app">
+        <KeyStrokes/>
         <Scoreboard />
         <div className="canvas">
           <div className="board">
             <div className="bg1">
               <section>
-                <img src="sprites/bg1.gif" alt="" />
                 <img className='cov' src="sprites/bg2.gif" alt="" />
               </section>
             </div>
