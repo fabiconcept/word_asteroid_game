@@ -1,4 +1,4 @@
-## Typing Gaime
+## Typing Game
 
 This is a simple typing game built with React.js. In this game, bubbles of words fall from the top of the screen and the player must type out the words on the bubbles using their keyboard. The objective of the game is to shoot as many bubbles as possible before they reach the bottom of the screen.
 
